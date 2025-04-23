@@ -24,14 +24,30 @@
     .preview-btn:hover, .download-btn:hover {
       background-color: #2563eb;
     }
+    .flag-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    .flag-container img {
+      width: 50px;
+      height: auto;
+    }
   </style>
 </head>
 <body class="min-h-screen p-6">
-  <div class="text-center mb-8">
-    <h1 class="text-4xl font-bold text-blue-400">📚 BookVault Xtreme</h1>
-    <p class="text-gray-400">View or download your epic PDFs like a boss</p>
-    <input type="search" id="searchBar" placeholder="Search books..." class="mt-4 p-2 rounded w-1/2">
-  </div>
+  <!-- Flag Section -->
+<div class="flag-container">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Flag_of_India.svg" alt="India Flag" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Flag_of_Russia.svg" alt="Russia Flag" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="USA Flag" />
+</div>
+
+  <!-- Main Content -->
+<div class="text-center mb-8">
+  <input type="search" id="searchBar" placeholder="Search books..." class="mt-4 p-2 rounded w-1/2">
+</div>
 
   <div id="bookContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <!-- Book Cards Appear Here -->
