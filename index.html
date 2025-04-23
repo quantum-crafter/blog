@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookVault Xtreme</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; }
+    .card { background-color: #1e293b; transition: transform 0.3s ease; }
+    .card:hover { transform: scale(1.02); box-shadow: 0 0 20px #3b82f6; }
+    input[type="search"] { background-color: #1e293b; color: white; }
+  </style>
+</head>
+<body class="min-h-screen p-6">
+  <div class="text-center mb-8">
+    <h1 class="text-4xl font-bold text-blue-400">📚 BookVault Xtreme</h1>
+    <p class="text-gray-400">Your ultimate futuristic PDF archive</p>
+    <input type="search" id="searchBar" placeholder="Search books..." class="mt-4 p-2 rounded w-1/2">
+  </div>
+
+  <div id="bookContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Book Cards Appear Here -->
+  </div>
+
+  <script>
+    const books = [
+      { title: "Physics Class 9", url: "books/physics9.pdf" },
+      { title: "Chemistry Class 9", url: "books/chemistry9.pdf" },
+      { title: "Maths Tricks Volume 1", url: "books/maths_tricks_v1.pdf" },
+      // Add more books here!
+    ];
+
+    function renderBooks(filter = "") {
+      const container = document.getElementById("bookContainer");
+      container.innerHTML = "";
+      books.filter(b => b.title.toLowerCase().includes(filter.toLowerCase())).forEach(book => {
+        container.innerHTML += `
+          <div class="card p-6 rounded-xl">
+            <h2 class="text-xl font-semibold text-blue-300">${book.title}</h2>
+            <a href="${book.url}" download class="mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download</a>
+          </div>
+        `;
+      });
+    }
+
+    document.getElementById("searchBar").addEventListener("input", (e) => {
+      renderBooks(e.target.value);
+    });
+
+    renderBooks();
+  </script>
+</body>
+</html>
