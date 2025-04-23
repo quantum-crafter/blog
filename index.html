@@ -3,19 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BookVault Xtreme</title>
+  <title>Book Archive</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     body { background-color: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; }
     .card { background-color: #1e293b; transition: transform 0.3s ease; }
     .card:hover { transform: scale(1.02); box-shadow: 0 0 20px #3b82f6; }
     input[type="search"] { background-color: #1e293b; color: white; }
+    iframe { border: none; width: 100%; height: 500px; }
+    .preview-btn, .download-btn {
+      background-color: #3b82f6;
+      color: white;
+      padding: 10px 15px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+    .preview-btn:hover, .download-btn:hover {
+      background-color: #2563eb;
+    }
   </style>
 </head>
 <body class="min-h-screen p-6">
   <div class="text-center mb-8">
     <h1 class="text-4xl font-bold text-blue-400">📚 BookVault Xtreme</h1>
-    <p class="text-gray-400">Your ultimate futuristic PDF archive</p>
+    <p class="text-gray-400">View or download your epic PDFs like a boss</p>
     <input type="search" id="searchBar" placeholder="Search books..." class="mt-4 p-2 rounded w-1/2">
   </div>
 
@@ -24,12 +38,13 @@
   </div>
 
   <script>
-    const books = [
-      { title: "Physics Class 9", url: "books/physics9.pdf" },
-      { title: "Chemistry Class 9", url: "books/chemistry9.pdf" },
-      { title: "Maths Tricks Volume 1", url: "books/maths_tricks_v1.pdf" },
-      // Add more books here!
-    ];
+    const books = [];
+    for (let i = 101; i <= 112; i++) {
+      books.push({
+        title: `Chapter ${i}`,
+        url: `iesc${i}.pdf`
+      });
+    }
 
     function renderBooks(filter = "") {
       const container = document.getElementById("bookContainer");
@@ -38,10 +53,48 @@
         container.innerHTML += `
           <div class="card p-6 rounded-xl">
             <h2 class="text-xl font-semibold text-blue-300">${book.title}</h2>
-            <a href="${book.url}" download class="mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Download</a>
+            <iframe class="preview-frame" src="${book.url}"></iframe>
+            <a href="${book.url}" download class="download-btn">Download</a>
+            <button class="preview-btn" onclick="openPreviewTab('${book.url}')">Preview</button>
           </div>
         `;
       });
+    }
+
+    function openPreviewTab(url) {
+      const previewWindow = window.open(url, '_blank');
+      previewWindow.document.write(`
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Preview: PDF Viewer</title>
+          <style>
+            body { background-color: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; padding: 20px; }
+            .container { display: flex; justify-content: center; align-items: center; height: 100vh; }
+            iframe { width: 90%; height: 90vh; border: none; }
+            .close-btn {
+              position: fixed;
+              top: 20px;
+              right: 20px;
+              background-color: #3b82f6;
+              color: white;
+              padding: 10px 15px;
+              font-weight: bold;
+              border-radius: 5px;
+              cursor: pointer;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <iframe src="${url}"></iframe>
+          </div>
+          <button class="close-btn" onclick="window.close()">Close Preview</button>
+        </body>
+        </html>
+      `);
+      previewWindow.document.close();
     }
 
     document.getElementById("searchBar").addEventListener("input", (e) => {
